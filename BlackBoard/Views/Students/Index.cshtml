@@ -1,0 +1,57 @@
+﻿@model IQueryable<BlackboardDatabase.Models.Student>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Students</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            AUID
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            BirthDate
+        </th>
+        <th>
+            EnrollmentDate
+        </th>
+        <th>
+            GraduationDate
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AUID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BirthDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnrollmentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GraduationDate)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.AUID">Details</a> 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,33 @@
+﻿@model IQueryable<BlackboardDatabase.Models.TeacherCourse>
+
+@{
+    ViewData["Title"] = "DetailsTeachers";
+}
+<h2>@Model.First().CourseName</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Teacher
+        </th>
+        <th>
+            Role
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TeacherAUID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
