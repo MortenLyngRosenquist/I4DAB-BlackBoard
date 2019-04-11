@@ -37,8 +37,6 @@ namespace BlackboardDatabase.DAL
 
         }
 
-
-
         public static async Task<IQueryable<Course>> GetCourses()
         {
             using (var context = new BlackboardDbContext())
@@ -117,6 +115,22 @@ namespace BlackboardDatabase.DAL
             return null;
         }
 
+        public static async Task<IQueryable<CourseContent>> GetCourseContentByCourseName(string courseName)
+        {
+            using (var context = new BlackboardDbContext())
+            {
+                if (await context.CourseContents.AnyAsync(cc => cc.CourseName == courseName))
+                {
+                    var contents = await context.CourseContents
+                        .Where(cc => cc.CourseName == courseName)
+                        .ToListAsync();
+                    await context.SaveChangesAsync();
+                    return contents.AsQueryable();
+                }
+            }
+            return null;
+        }
+
         //TODO: Input -> Output
         //TODO: (course id) -> List course content
         //TODO: (student id, course id) -> List students assignment, with grade and who grade these
@@ -124,7 +138,7 @@ namespace BlackboardDatabase.DAL
         #endregion
 
         #region Creation
-        
+
         public static async Task AddStudent(Student student)
         {
             using (var context = new BlackboardDbContext())

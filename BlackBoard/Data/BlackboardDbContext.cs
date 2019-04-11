@@ -45,6 +45,7 @@ namespace BlackboardDatabase.Data
             OnModelCreatingTeacherCourse(modelBuilder);
             OnModelCreatingCourseStudent(modelBuilder);
             OnModelCreatingCourseContent(modelBuilder);
+            OnModelCreatingAssignmentStudent(modelBuilder);
             OnModelCreatingStudent(modelBuilder);
             OnModelCreatingSeedingData(modelBuilder);
         }
