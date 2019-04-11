@@ -67,17 +67,17 @@ namespace BlackboardDatabase.DAL
             return null;
         }
 
-        public static async Task<IQueryable<Assignment>> GetAssignmentByStudentId(int auId)
+        public static async Task<IQueryable<AssignmentStudent>> GetAssignmentByStudentId(int auId)
         {
             using (var context = new BlackboardDbContext())
             {
-                if (await context.Assignments.AnyAsync(a => a.StudentAUID == auId))
+                if (await context.AssignmentStudents.AnyAsync(as_ => as_.StudentAUID == auId))
                 {
-                    var assignments = await context.Assignments
-                        .Where(a => a.StudentAUID == auId)
+                    var assignmentStudents = await context.AssignmentStudents
+                        .Where(as_ => as_.StudentAUID == auId)
                         .ToListAsync();
                     await context.SaveChangesAsync();
-                    return assignments.AsQueryable();
+                    return assignmentStudents.AsQueryable();
                 }
             }
             return null;
@@ -159,6 +159,8 @@ namespace BlackboardDatabase.DAL
                 }
         }
 
+
+
         public static async Task AddCourseStudent(CourseStudent courseStudent)
         {
             using (var context = new BlackboardDbContext())
@@ -172,6 +174,18 @@ namespace BlackboardDatabase.DAL
         }
        
         //TODO: Add assignment
+        public static async Task AddAssignment(Assignment assignment)
+        {
+            using (var context = new BlackboardDbContext())
+            {
+                if (!(await context.Courses.AnyAsync(a => a.Assignments.Contains(assignment))))
+                {
+                    await context.Assignments.AddAsync(assignment);
+                    await context.SaveChangesAsync();
+                }
+            }
+        }
+
         //TODO: Grade assignment
 
 

@@ -11,6 +11,7 @@ namespace BlackboardDatabase.Data
     public class BlackboardDbContext : DbContext
     {
         public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<AssignmentStudent> AssignmentStudents { get; set; }
         public DbSet<ContentArea> ContentAreas { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseContent> CourseContents { get; set; }
