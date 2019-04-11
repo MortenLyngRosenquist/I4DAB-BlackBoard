@@ -22,7 +22,7 @@ namespace BlackboardDatabase.Models
         [Required]
         public DateTime GraduationDate { get; set; }
 
-        public List<Assignment> Assignments { get; set; }
+        public List<AssignmentStudent> AssignmentStudents { get; set; }
         public List<CourseStudent> CourseStudents { get; set; }
 
         public override string ToString()

@@ -26,9 +26,8 @@ namespace BlackboardDatabase.Models
         [Required]
         public string CourseName { get; set; }
 
-        public Student Student { get; set; }
-        [Required]
-        public int StudentAUID { get; set; }
+        public List<AssignmentStudent> AssignmentStudents { get; set; }
+
 
 
     }

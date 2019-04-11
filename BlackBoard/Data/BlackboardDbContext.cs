@@ -97,6 +97,22 @@ namespace BlackboardDatabase.Data
                 .HasForeignKey(sc => sc.CourseName);
         }
 
+        private void OnModelCreatingAssignmentStudent(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<AssignmentStudent>()
+                .HasKey(as_ => new { as_.StudentAUID, as_.AssignmentId });
+
+            modelBuilder.Entity<AssignmentStudent>()
+                .HasOne<Student>(as_ => as_.Student)
+                .WithMany(s => s.AssignmentStudents)
+                .HasForeignKey(as_ => as_.StudentAUID);
+
+            modelBuilder.Entity<AssignmentStudent>()
+                .HasOne<Assignment>(as_ => as_.Assignment)
+                .WithMany(a => a.AssignmentStudents)
+                .HasForeignKey(as_ => as_.StudentAUID);
+        }
+
         private void OnModelCreatingSeedingData(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Student>().HasData(
