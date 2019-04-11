@@ -14,5 +14,7 @@ namespace BlackboardDatabase.Models
         [Required]
         public int StudentAUID { get; set; }
         public Student Student { get; set; }
+
+
     }
 }

@@ -71,6 +71,19 @@ namespace BlackBoard.Controllers
             await DAL.AddCourseStudent(courseStudent);
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> AssignmentsByCourse(int id, string course)
+        {
+            var studentcourseassignments = await DAL.GetStudentAssignmentsByCourseIDAndStudentID(course, id);
+            if (studentcourseassignments == null)
+            {
+                return NotFound();
+            }
+
+            return View(studentcourseassignments);
+        }
+
+
     }
 
 }

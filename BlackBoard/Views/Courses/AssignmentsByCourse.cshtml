@@ -1,0 +1,63 @@
+﻿@model IEnumerable<BlackboardDatabase.Models.Assignment>
+
+@{
+    ViewData["Title"] = "AssignmentsByCourse";
+}
+
+<h1>AssignmentsByCourse</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.HandinDeadline)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Attempt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Grade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParticipantsAllowed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Teacher)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.HandinDeadline)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Attempt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParticipantsAllowed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teacher.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course.CourseName)
+            </td>
+            <td>
+                
+               
+                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
