@@ -10,9 +10,11 @@ namespace BlackboardDatabase.Models
         [Required]
         public int TeacherAUID { get; set; }
         public Teacher Teacher { get; set; }
+
         [Required]
         public string CourseName { get; set; }
         public Course Course { get; set; }
+
         [Required]
         public string Role { get; set; }
     }
