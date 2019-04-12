@@ -257,11 +257,10 @@ namespace BlackboardDatabase.DAL
         {
             using (var context = new BlackboardDbContext())
             {
+                context.Assignments.Attach(assignment);
                 //context.Assignments.Attach(assignment);
-                //context.Assignments.Attach(assignment);
-                
-                assignment.Grade = 10;
-                //assignment.Grade = grade;
+                context.Entry(assignment).Property(x => x.Grade).IsModified = true;
+                //Fejler. 
                 await context.SaveChangesAsync();
                
             }

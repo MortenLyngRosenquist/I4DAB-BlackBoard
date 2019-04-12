@@ -46,7 +46,6 @@ namespace BlackBoard.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AUID,Name,BirthDate,EnrollmentDate,GraduationDate")] Student student)
         {
-            
             await DAL.AddStudent(student);
             return RedirectToAction(nameof(Index));
         }

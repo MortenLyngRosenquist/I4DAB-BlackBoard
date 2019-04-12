@@ -229,7 +229,7 @@ namespace BlackboardDatabase.Data
             );
 
             modelBuilder.Entity<Assignment>().HasData(
-                new
+                new Assignment 
                 {
                     AssignmentId = 111,
                     HandinDeadline = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -239,7 +239,7 @@ namespace BlackboardDatabase.Data
                     TeacherAUID = 777777,
                     CourseName = "F19-I4SWD"
                 },
-                new
+                new Assignment
                 {
                     AssignmentId = 222,
                     HandinDeadline = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -249,7 +249,7 @@ namespace BlackboardDatabase.Data
                     TeacherAUID = 999999,
                     CourseName = "F19-I4DAB"
                 },
-                new
+                new Assignment
                 {
                     AssignmentId = 333,
                     HandinDeadline = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
