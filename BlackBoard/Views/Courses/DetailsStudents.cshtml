@@ -1,4 +1,4 @@
-﻿@model IQueryable<BlackboardDatabase.Models.CourseStudent>
+﻿@model IEnumerable<BlackboardDatabase.Models.CourseStudent>
 
 @{
     ViewData["Title"] = "DetailsTeachers";
@@ -8,10 +8,13 @@
     <thead>
         <tr>
             <th>
-                Student
+                @Html.DisplayNameFor(model => model.StudentAUID)
             </th>
             <th>
-                Status
+                @Html.DisplayNameFor(model => model.CourseName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
             </th>
         </tr>
     </thead>
@@ -23,10 +26,13 @@
                 @Html.DisplayFor(modelItem => item.StudentAUID)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.CourseName)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                <a asp-action="AssignmentsByCourse" asp-route-id="@item.StudentAUID" asp-route-course="@Model.First().CourseName">Students Assignments in this course </a>
+                <a asp-controller="Assignment" asp-action="SpecificAssignments" asp-route-studentAUID="@item.StudentAUID" asp-route-courseName="@item.CourseName">Students Assignments in this course </a>
             </td>
         </tr>
         }

@@ -6,14 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20190409171010_Initial.cs" />
-    <Compile Remove="Migrations\20190409171010_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20190409172953_Initial.cs" />
-    <Compile Remove="Migrations\20190409172953_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20190409173503_Base.cs" />
-    <Compile Remove="Migrations\20190409173503_Base.Designer.cs" />
-    <Compile Remove="Migrations\20190411180507_initial_.cs" />
-    <Compile Remove="Migrations\20190411180507_initial_.Designer.cs" />
+    <Compile Remove="Migrations\20190412105530_base.cs" />
+    <Compile Remove="Migrations\20190412105530_base.Designer.cs" />
+    <Compile Remove="Migrations\20190412110056_Base.cs" />
+    <Compile Remove="Migrations\20190412110056_Base.Designer.cs" />
   </ItemGroup>
 
 

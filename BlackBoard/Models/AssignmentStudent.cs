@@ -10,7 +10,6 @@ namespace BlackboardDatabase.Models
         [Required]
         public int AssignmentId { get; set; }
         public Assignment Assignment { get; set; }
-
         [Required]
         public int StudentAUID { get; set; }
         public Student Student { get; set; }

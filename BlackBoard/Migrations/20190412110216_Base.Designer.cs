@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlackBoard.Migrations
 {
     [DbContext(typeof(BlackboardDbContext))]
-    [Migration("20190409174316_initial")]
-    partial class initial
+    [Migration("20190412110216_Base")]
+    partial class Base
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,27 @@ namespace BlackBoard.Migrations
                 .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("BlackBoard.Models.ContentLink", b =>
+                {
+                    b.Property<int>("ContentLinkId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ContentAreaId");
+
+                    b.Property<string>("Link")
+                        .IsRequired();
+
+                    b.Property<string>("Type")
+                        .IsRequired();
+
+                    b.HasKey("ContentLinkId");
+
+                    b.HasIndex("ContentAreaId");
+
+                    b.ToTable("ContentLink");
+                });
 
             modelBuilder.Entity("BlackboardDatabase.Models.Assignment", b =>
                 {
@@ -38,19 +59,102 @@ namespace BlackBoard.Migrations
 
                     b.Property<int>("ParticipantsAllowed");
 
-                    b.Property<int>("StudentAUID");
-
                     b.Property<int>("TeacherAUID");
 
                     b.HasKey("AssignmentId");
 
                     b.HasIndex("CourseName");
 
-                    b.HasIndex("StudentAUID");
-
                     b.HasIndex("TeacherAUID");
 
                     b.ToTable("Assignments");
+
+                    b.HasData(
+                        new
+                        {
+                            AssignmentId = 111,
+                            Attempt = 2,
+                            CourseName = "F19-I4SWD",
+                            Grade = 7,
+                            HandinDeadline = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ParticipantsAllowed = 5,
+                            TeacherAUID = 777777
+                        },
+                        new
+                        {
+                            AssignmentId = 222,
+                            Attempt = 2,
+                            CourseName = "F19-I4DAB",
+                            Grade = 4,
+                            HandinDeadline = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ParticipantsAllowed = 5,
+                            TeacherAUID = 999999
+                        },
+                        new
+                        {
+                            AssignmentId = 333,
+                            Attempt = 5,
+                            CourseName = "F19-I4DAB",
+                            Grade = 10,
+                            HandinDeadline = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ParticipantsAllowed = 10,
+                            TeacherAUID = 999999
+                        });
+                });
+
+            modelBuilder.Entity("BlackboardDatabase.Models.AssignmentStudent", b =>
+                {
+                    b.Property<int>("StudentAUID");
+
+                    b.Property<int>("AssignmentId");
+
+                    b.HasKey("StudentAUID", "AssignmentId");
+
+                    b.HasIndex("AssignmentId");
+
+                    b.ToTable("AssignmentStudents");
+
+                    b.HasData(
+                        new
+                        {
+                            StudentAUID = 111111,
+                            AssignmentId = 111
+                        },
+                        new
+                        {
+                            StudentAUID = 111111,
+                            AssignmentId = 222
+                        },
+                        new
+                        {
+                            StudentAUID = 111111,
+                            AssignmentId = 333
+                        },
+                        new
+                        {
+                            StudentAUID = 222222,
+                            AssignmentId = 111
+                        },
+                        new
+                        {
+                            StudentAUID = 222222,
+                            AssignmentId = 222
+                        },
+                        new
+                        {
+                            StudentAUID = 333333,
+                            AssignmentId = 333
+                        },
+                        new
+                        {
+                            StudentAUID = 444444,
+                            AssignmentId = 333
+                        },
+                        new
+                        {
+                            StudentAUID = 444444,
+                            AssignmentId = 111
+                        });
                 });
 
             modelBuilder.Entity("BlackboardDatabase.Models.ContentArea", b =>
@@ -531,6 +635,14 @@ namespace BlackBoard.Migrations
                         });
                 });
 
+            modelBuilder.Entity("BlackBoard.Models.ContentLink", b =>
+                {
+                    b.HasOne("BlackboardDatabase.Models.ContentArea", "ContentArea")
+                        .WithMany("ContentLinks")
+                        .HasForeignKey("ContentAreaId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("BlackboardDatabase.Models.Assignment", b =>
                 {
                     b.HasOne("BlackboardDatabase.Models.Course", "Course")
@@ -538,14 +650,22 @@ namespace BlackBoard.Migrations
                         .HasForeignKey("CourseName")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("BlackboardDatabase.Models.Student", "Student")
-                        .WithMany("Assignments")
-                        .HasForeignKey("StudentAUID")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("BlackboardDatabase.Models.Teacher", "Teacher")
                         .WithMany("Assignments")
                         .HasForeignKey("TeacherAUID")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("BlackboardDatabase.Models.AssignmentStudent", b =>
+                {
+                    b.HasOne("BlackboardDatabase.Models.Assignment", "Assignment")
+                        .WithMany("AssignmentStudents")
+                        .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BlackboardDatabase.Models.Student", "Student")
+                        .WithMany("AssignmentStudents")
+                        .HasForeignKey("StudentAUID")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

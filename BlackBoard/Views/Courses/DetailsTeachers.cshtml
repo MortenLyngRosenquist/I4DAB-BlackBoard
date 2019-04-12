@@ -1,4 +1,4 @@
-﻿@model IQueryable<BlackboardDatabase.Models.TeacherCourse>
+﻿@model IEnumerable<BlackboardDatabase.Models.TeacherCourse>
 
 @{
     ViewData["Title"] = "DetailsTeachers";
@@ -8,10 +8,10 @@
     <thead>
     <tr>
         <th>
-            Teacher
+            @Html.DisplayNameFor(model => model.TeacherAUID)
         </th>
         <th>
-            Role
+            @Html.DisplayNameFor(model => model.Role)
         </th>
     </tr>
     </thead>

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using BlackboardDatabase.DAL;
 using BlackboardDatabase.Data;
 using BlackboardDatabase.Models;
+using BlackBoard.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlackBoard.Controllers
@@ -20,7 +22,15 @@ namespace BlackBoard.Controllers
         }
         public async Task<IActionResult> Index()
         {
+
             return View(await DAL.GetAssignments(_context));
+        }
+
+        public async Task<IActionResult> SpecificAssignments(int studentAUID, string courseName)
+        {
+
+            var studentAssignments = await DAL.GetStudentAssignmentsByCourseIDAndStudentID(courseName, studentAUID, _context);
+            return View(studentAssignments);
         }
 
         public IActionResult Create()
@@ -28,28 +38,40 @@ namespace BlackBoard.Controllers
             return View();
         }
 
-        public IActionResult GradeAssignment()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("CourseName,ParticipantsAllowed,HandinDeadline,TeacherAUID")] Assignment assignment)
         {
-            return View();
+            
+                _context.Add(assignment);
+                await _context.SaveChangesAsync();
+            
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> GradeAssignment(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var assignment = await _context.Assignments.FindAsync(id);
+            if (assignment == null)
+            {
+                return NotFound();
+            }
+            return View(assignment);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> GradeAssignment([Bind("Grade")] Assignment assignment)
+        public async Task<IActionResult> GradeAssignment([Bind("AssignmentId,Grade")] Assignment assignment)
         {
 
             await DAL.GradeAssignment(assignment, _context);
             return RedirectToAction(nameof(Index));
         }
-
-
-        /*[HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AssignmentId,HandinDeadline,Attempt,Grade,ParticipantsAllowed,TeacherAUID,CourseName")] Assignment assignment)
-        {
-            await DAL.AddAssignment(assignment);
-            return RedirectToAction(nameof(Index));
-        }*/
 
 
     }
