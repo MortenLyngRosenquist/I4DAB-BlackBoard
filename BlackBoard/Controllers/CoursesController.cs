@@ -14,17 +14,22 @@ namespace BlackBoard.Controllers
 {
     public class CoursesController : Controller
     {
+        private readonly BlackboardDbContext _context;
 
+        public CoursesController(BlackboardDbContext context)
+        {
+            _context = context;
+        }
         // GET: Courses
         public async Task<IActionResult> Index()
         {
-            return View(await DAL.GetCourses());
+            return View(await DAL.GetCourses(_context));
         }
 
         // GET: Courses/Details/5
         public async Task<IActionResult> DetailsTeachers(string id)
         {
-            var teacherCourses = await DAL.GetTeacherCoursesByCourseName(id);
+            var teacherCourses = await DAL.GetTeacherCoursesByCourseName(id, _context);
             if (teacherCourses == null)
             {
                 return NotFound();
@@ -34,7 +39,7 @@ namespace BlackBoard.Controllers
 
         public async Task<IActionResult> DetailsStudents(string id)
         {
-            var courseStudent = await DAL.GetCourseStudentByCourseName(id);
+            var courseStudent = await DAL.GetCourseStudentByCourseName(id, _context);
             if (courseStudent == null)
             {
                 return NotFound();
@@ -55,7 +60,7 @@ namespace BlackBoard.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CourseName,CourseContentId")] Course course)
         {
-            await DAL.AddCourse(course);
+            await DAL.AddCourse(course, _context);
             return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> AddStudent()
@@ -68,13 +73,19 @@ namespace BlackBoard.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddStudent([Bind("CourseName,StudentAUID,Status,Grade")] CourseStudent courseStudent)
         {
-            await DAL.AddCourseStudent(courseStudent);
+            await DAL.AddCourseStudent(courseStudent, _context);
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> CourseContent(string id)
+        {
+            var courseContent = await DAL.GetCourseContentByCourseName(id, _context);
+            return View();
         }
 
         public async Task<IActionResult> AssignmentsByCourse(int id, string course)
         {
-            var studentcourseassignments = await DAL.GetStudentAssignmentsByCourseIDAndStudentID(course, id);
+            var studentcourseassignments = await DAL.GetStudentAssignmentsByCourseIDAndStudentID(course, id, _context);
             if (studentcourseassignments == null)
             {
                 return NotFound();

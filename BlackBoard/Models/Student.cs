@@ -25,13 +25,6 @@ namespace BlackboardDatabase.Models
         public List<AssignmentStudent> AssignmentStudents { get; set; }
         public List<CourseStudent> CourseStudents { get; set; }
 
-        public override string ToString()
-        {
-            return $"AUID: {AUID} \n " +
-                   $"Name: {Name} \n" +
-                   $"BirthDate: {BirthDate}" +
-                   $"EnrollmentDate: {EnrollmentDate}" +
-                   $"GraduationDate: {GraduationDate}";
-        }
+        
     }
 }

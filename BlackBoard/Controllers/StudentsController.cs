@@ -13,18 +13,23 @@ namespace BlackBoard.Controllers
 {
     public class StudentsController : Controller
     {
-        
 
+        private readonly BlackboardDbContext _context;
+
+        public StudentsController(BlackboardDbContext context)
+        {
+            _context = context;
+        }
         // GET: Students
         public async Task<IActionResult> Index()
         {
-            return View( await DAL.GetStudents());
+            return View( await DAL.GetStudents(_context));
         }
 
         // GET: Students/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var student = await DAL.GetStudent(id);
+            var student = await DAL.GetStudent(id, _context);
             if (student == null)
             {
                 return NotFound();
@@ -47,13 +52,13 @@ namespace BlackBoard.Controllers
         public async Task<IActionResult> Create([Bind("AUID,Name,BirthDate,EnrollmentDate,GraduationDate")] Student student)
         {
             
-            await DAL.AddStudent(student);
+            await DAL.AddStudent(student, _context);
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Activity(int id)
         {
-            var courseStudent = await DAL.GetCourseStudentByStudentId(id);
+            var courseStudent = await DAL.GetCourseStudentByStudentId(id, _context);
             if (courseStudent == null)
             {
                 return NotFound();

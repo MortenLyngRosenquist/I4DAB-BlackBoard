@@ -29,11 +29,7 @@ namespace BlackboardDatabase.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(
-                    "Server=(localdb)\\mssqllocaldb;Database=DAB2Demonstration--BlackBoard;Trusted_Connection=True;MultipleActiveResultSets = true");
-            }
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
