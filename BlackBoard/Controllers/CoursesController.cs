@@ -77,11 +77,7 @@ namespace BlackBoard.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> CourseContent(string id)
-        {
-            var courseContent = await DAL.GetCourseContentByCourseName(id, _context);
-            return View();
-        }
+       
 
         public async Task<IActionResult> AssignmentsByCourse(int id, string course)
         {
