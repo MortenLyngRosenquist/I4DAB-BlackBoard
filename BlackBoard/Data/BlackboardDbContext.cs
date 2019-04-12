@@ -29,11 +29,7 @@ namespace BlackboardDatabase.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(
-                    "Server=(localdb)\\mssqllocaldb;Database=DAB2Demonstration--BlackBoard;Trusted_Connection=True;MultipleActiveResultSets = true");
-            }
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -227,6 +223,41 @@ namespace BlackboardDatabase.Data
                 new ContentArea { ContentAreaId = -12, CourseContentId = 3, FolderId = 9, TextBlock = $"2Random content text (3,9)" }
 
             );
+
+            modelBuilder.Entity<Assignment>().HasData(
+                new Assignment 
+                {
+                    AssignmentId = 111,
+                    HandinDeadline = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                    Attempt = 2,
+                    Grade = 7,
+                    ParticipantsAllowed = 5,
+                    TeacherAUID = 777777,
+                    CourseName = "F19-I4SWD"
+                },
+                new Assignment
+                {
+                    AssignmentId = 222,
+                    HandinDeadline = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                    Attempt = 2,
+                    Grade = 4,
+                    ParticipantsAllowed = 5,
+                    TeacherAUID = 999999,
+                    CourseName = "F19-I4DAB"
+                },
+                new Assignment
+                {
+                    AssignmentId = 333,
+                    HandinDeadline = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                    Attempt = 5,
+                    Grade = 10,
+                    ParticipantsAllowed = 10,
+                    TeacherAUID = 999999,
+                    CourseName = "F19-I4DAB"
+                });
+
+
+           
         }
     }
 }

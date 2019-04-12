@@ -1,0 +1,71 @@
+﻿@model IEnumerable<BlackboardDatabase.Models.Assignment>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.HandinDeadline)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Attempt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Grade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParticipantsAllowed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Teacher)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.HandinDeadline)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Attempt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParticipantsAllowed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TeacherAUID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseName)
+            </td>
+            <td>
+                <a asp-action="GradeAssignment" asp-route-id="@item.AssignmentId">Grade</a> 
+            </td>
+
+        </tr>
+            }
+        }
+    </tbody>
+</table>

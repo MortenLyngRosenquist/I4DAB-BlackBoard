@@ -15,7 +15,7 @@ namespace BlackBoard.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
+                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -36,19 +36,58 @@ namespace BlackBoard.Migrations
 
                     b.Property<int>("ParticipantsAllowed");
 
-                    b.Property<int>("StudentAUID");
-
                     b.Property<int>("TeacherAUID");
 
                     b.HasKey("AssignmentId");
 
                     b.HasIndex("CourseName");
 
-                    b.HasIndex("StudentAUID");
-
                     b.HasIndex("TeacherAUID");
 
                     b.ToTable("Assignments");
+
+                    b.HasData(
+                        new
+                        {
+                            AssignmentId = 111,
+                            Attempt = 2,
+                            CourseName = "F19-I4SWD",
+                            Grade = 7,
+                            HandinDeadline = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ParticipantsAllowed = 5,
+                            TeacherAUID = 777777
+                        },
+                        new
+                        {
+                            AssignmentId = 222,
+                            Attempt = 2,
+                            CourseName = "F19-I4DAB",
+                            Grade = 4,
+                            HandinDeadline = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ParticipantsAllowed = 5,
+                            TeacherAUID = 999999
+                        },
+                        new
+                        {
+                            AssignmentId = 333,
+                            Attempt = 5,
+                            CourseName = "F19-I4DAB",
+                            Grade = 10,
+                            HandinDeadline = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ParticipantsAllowed = 10,
+                            TeacherAUID = 999999
+                        });
+                });
+
+            modelBuilder.Entity("BlackboardDatabase.Models.AssignmentStudent", b =>
+                {
+                    b.Property<int>("StudentAUID");
+
+                    b.Property<int>("AssignmentId");
+
+                    b.HasKey("StudentAUID", "AssignmentId");
+
+                    b.ToTable("AssignmentStudents");
                 });
 
             modelBuilder.Entity("BlackboardDatabase.Models.ContentArea", b =>
@@ -536,14 +575,22 @@ namespace BlackBoard.Migrations
                         .HasForeignKey("CourseName")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("BlackboardDatabase.Models.Student", "Student")
-                        .WithMany("Assignments")
-                        .HasForeignKey("StudentAUID")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("BlackboardDatabase.Models.Teacher", "Teacher")
                         .WithMany("Assignments")
                         .HasForeignKey("TeacherAUID")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("BlackboardDatabase.Models.AssignmentStudent", b =>
+                {
+                    b.HasOne("BlackboardDatabase.Models.Student", "Student")
+                        .WithMany("AssignmentStudents")
+                        .HasForeignKey("StudentAUID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BlackboardDatabase.Models.Assignment", "Assignment")
+                        .WithMany("AssignmentStudents")
+                        .HasForeignKey("StudentAUID")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

@@ -18,17 +18,21 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StudentAUID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentAUID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                <a asp-action="AssignmentsByCourse" asp-route-id="@item.StudentAUID" asp-route-course="@Model.First().CourseName">Students Assignments in this course </a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
 <div>
     <a asp-action="Index">Back to List</a>
+    
 </div>

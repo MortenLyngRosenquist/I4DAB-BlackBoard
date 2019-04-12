@@ -18,13 +18,15 @@ namespace BlackboardDatabase.Models
         [Required]
         public int ParticipantsAllowed { get; set; }
 
-        public Teacher Teacher { get; set; }
+        
         [Required]
         public int TeacherAUID { get; set; }
+        public Teacher Teacher { get; set; }
 
-        public Course Course { get; set; }
+        
         [Required]
         public string CourseName { get; set; }
+        public Course Course { get; set; }
 
         public List<AssignmentStudent> AssignmentStudents { get; set; }
 
