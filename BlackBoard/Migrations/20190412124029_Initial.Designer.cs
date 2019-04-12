@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlackBoard.Migrations
 {
     [DbContext(typeof(BlackboardDbContext))]
-    [Migration("20190412110216_Base")]
-    partial class Base
+    [Migration("20190412124029_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -180,84 +180,84 @@ namespace BlackBoard.Migrations
                     b.HasData(
                         new
                         {
-                            ContentAreaId = -1,
+                            ContentAreaId = 1,
                             CourseContentId = 1,
                             FolderId = 1,
                             TextBlock = "1Random content text (1,1)"
                         },
                         new
                         {
-                            ContentAreaId = -2,
+                            ContentAreaId = 2,
                             CourseContentId = 1,
                             FolderId = 1,
                             TextBlock = "2Random content text (1,1)"
                         },
                         new
                         {
-                            ContentAreaId = -3,
+                            ContentAreaId = 3,
                             CourseContentId = 1,
                             FolderId = 1,
                             TextBlock = "3Random content text (1,1)"
                         },
                         new
                         {
-                            ContentAreaId = -4,
+                            ContentAreaId = 4,
                             CourseContentId = 1,
                             FolderId = 2,
                             TextBlock = "Random content text (1,2)"
                         },
                         new
                         {
-                            ContentAreaId = -5,
+                            ContentAreaId = 5,
                             CourseContentId = 1,
                             FolderId = 3,
                             TextBlock = "1Random content text (1,3)"
                         },
                         new
                         {
-                            ContentAreaId = -6,
+                            ContentAreaId = 6,
                             CourseContentId = 1,
                             FolderId = 3,
                             TextBlock = "2Random content text (1,3)"
                         },
                         new
                         {
-                            ContentAreaId = -7,
+                            ContentAreaId = 7,
                             CourseContentId = 2,
                             FolderId = 4,
                             TextBlock = "Random content text (2,4)"
                         },
                         new
                         {
-                            ContentAreaId = -8,
+                            ContentAreaId = 8,
                             CourseContentId = 2,
                             FolderId = 5,
                             TextBlock = "1Random content text (2,5)"
                         },
                         new
                         {
-                            ContentAreaId = -9,
+                            ContentAreaId = 9,
                             CourseContentId = 2,
                             FolderId = 6,
                             TextBlock = "2Random content text (2,6)"
                         },
                         new
                         {
-                            ContentAreaId = -10,
+                            ContentAreaId = 10,
                             CourseContentId = 3,
                             FolderId = 7,
                             TextBlock = "Random content text (3,7)"
                         },
                         new
                         {
-                            ContentAreaId = -11,
+                            ContentAreaId = 11,
                             CourseContentId = 3,
                             FolderId = 8,
                             TextBlock = "1Random content text (3,8)"
                         },
                         new
                         {
-                            ContentAreaId = -12,
+                            ContentAreaId = 12,
                             CourseContentId = 3,
                             FolderId = 9,
                             TextBlock = "2Random content text (3,9)"

@@ -26,7 +26,7 @@
             <a asp-action="DetailsTeachers" asp-route-id="@item.CourseName">Teachers</a> |
             <a asp-action="DetailsStudents" asp-route-id="@item.CourseName">Students</a> |
             <a asp-action="AddStudent" asp-route-id="@item.CourseName">Add Student</a> |
-            <a asp-controller="CourseContents" asp-action="Index" asp-route-id="@item.CourseName">CourseContent</a> 
+            <a asp-controller="CourseContents" asp-action="Index" asp-route-courseName="@item.CourseName">CourseContent</a> 
         </td>
     </tr>
 }

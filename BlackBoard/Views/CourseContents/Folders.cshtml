@@ -1,0 +1,41 @@
+﻿@model IEnumerable<BlackboardDatabase.Models.Folder>
+
+@{
+    ViewData["Title"] = "Folders";
+}
+
+<h2>Folders</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FolderId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseContentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FolderName)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FolderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseContentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FolderName)
+            </td>
+            <td>
+                <a asp-action="ContentAreas" asp-route-folderId="@item.FolderId">See content in folder</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

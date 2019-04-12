@@ -65,6 +65,44 @@ namespace BlackboardDatabase.DAL
             return null;
         }
 
+        public static async Task<IEnumerable<Folder>> GetFoldersByCourseContentId(int ccId, BlackboardDbContext context)
+        {
+            if (await context.Folders.AnyAsync(f => f.CourseContentId == ccId))
+            {
+                var folders = await context.Folders
+                    .Where(f => f.CourseContentId == ccId)
+                    .ToListAsync();
+
+                return folders;
+            }
+            return null;
+        }
+
+        public static async Task<IEnumerable<ContentArea>> GetContentAreaByCourseContentId(int ccId, BlackboardDbContext context)
+        {
+            if (await context.ContentAreas.AnyAsync(f => f.CourseContentId == ccId))
+            {
+                var CourseArea = await context.ContentAreas
+                    .Where(f => f.CourseContentId == ccId)
+                    .ToListAsync();
+
+                return CourseArea;
+            }
+            return null;
+        }
+
+        public static async Task<IEnumerable<ContentArea>> GetContentAreaByFolderId(int fId, BlackboardDbContext context)
+        {
+            if (await context.ContentAreas.AnyAsync(f => f.FolderId == fId))
+            {
+                var CourseArea = await context.ContentAreas
+                    .Where(f => f.FolderId == fId)
+                    .ToListAsync();
+                return CourseArea;
+            }
+            return null;
+        }
+
         public static async Task<IEnumerable<AssignmentStudent>> GetAssignmentByStudentId(int auId, BlackboardDbContext context)
         {
 
@@ -117,11 +155,7 @@ namespace BlackboardDatabase.DAL
             return null;
         }
 
-        //TODO: Input -> Output
-        //TODO: (course id) -> List course content
-
-        //TODO: (student id, course id) -> List students assignment, with grade and who grade these
-
+        
         public static async Task<IEnumerable<Assignment>> GetStudentAssignmentsByCourseIDAndStudentID(string courseName, int auId, BlackboardDbContext context)
         {
             var assignmentStudents = await context.AssignmentStudents

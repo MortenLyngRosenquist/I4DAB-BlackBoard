@@ -211,21 +211,21 @@ namespace BlackboardDatabase.Data
             );
 
             modelBuilder.Entity<ContentArea>().HasData(
-                new ContentArea { ContentAreaId = -1, CourseContentId = 1, FolderId = 1, TextBlock = $"1Random content text (1,1)" },
-                new ContentArea { ContentAreaId = -2, CourseContentId = 1, FolderId = 1, TextBlock = $"2Random content text (1,1)" },
-                new ContentArea { ContentAreaId = -3, CourseContentId = 1, FolderId = 1, TextBlock = $"3Random content text (1,1)" },
+                new ContentArea { ContentAreaId = 1, CourseContentId = 1, FolderId = 1, TextBlock = $"1Random content text (1,1)" },
+                new ContentArea { ContentAreaId = 2, CourseContentId = 1, FolderId = 1, TextBlock = $"2Random content text (1,1)" },
+                new ContentArea { ContentAreaId = 3, CourseContentId = 1, FolderId = 1, TextBlock = $"3Random content text (1,1)" },
 
-                new ContentArea { ContentAreaId = -4, CourseContentId = 1, FolderId = 2, TextBlock = $"Random content text (1,2)" },
-                new ContentArea { ContentAreaId = -5, CourseContentId = 1, FolderId = 3, TextBlock = $"1Random content text (1,3)" },
-                new ContentArea { ContentAreaId = -6, CourseContentId = 1, FolderId = 3, TextBlock = $"2Random content text (1,3)" },
+                new ContentArea { ContentAreaId = 4, CourseContentId = 1, FolderId = 2, TextBlock = $"Random content text (1,2)" },
+                new ContentArea { ContentAreaId = 5, CourseContentId = 1, FolderId = 3, TextBlock = $"1Random content text (1,3)" },
+                new ContentArea { ContentAreaId = 6, CourseContentId = 1, FolderId = 3, TextBlock = $"2Random content text (1,3)" },
 
-                new ContentArea { ContentAreaId = -7, CourseContentId = 2, FolderId = 4, TextBlock = $"Random content text (2,4)" },
-                new ContentArea { ContentAreaId = -8, CourseContentId = 2, FolderId = 5, TextBlock = $"1Random content text (2,5)" },
-                new ContentArea { ContentAreaId = -9, CourseContentId = 2, FolderId = 6, TextBlock = $"2Random content text (2,6)" },
+                new ContentArea { ContentAreaId = 7, CourseContentId = 2, FolderId = 4, TextBlock = $"Random content text (2,4)" },
+                new ContentArea { ContentAreaId = 8, CourseContentId = 2, FolderId = 5, TextBlock = $"1Random content text (2,5)" },
+                new ContentArea { ContentAreaId = 9, CourseContentId = 2, FolderId = 6, TextBlock = $"2Random content text (2,6)" },
 
-                new ContentArea { ContentAreaId = -10, CourseContentId = 3, FolderId = 7, TextBlock = $"Random content text (3,7)" },
-                new ContentArea { ContentAreaId = -11, CourseContentId = 3, FolderId = 8, TextBlock = $"1Random content text (3,8)" },
-                new ContentArea { ContentAreaId = -12, CourseContentId = 3, FolderId = 9, TextBlock = $"2Random content text (3,9)" }
+                new ContentArea { ContentAreaId = 10, CourseContentId = 3, FolderId = 7, TextBlock = $"Random content text (3,7)" },
+                new ContentArea { ContentAreaId = 11, CourseContentId = 3, FolderId = 8, TextBlock = $"1Random content text (3,8)" },
+                new ContentArea { ContentAreaId = 12, CourseContentId = 3, FolderId = 9, TextBlock = $"2Random content text (3,9)" }
 
             );
 

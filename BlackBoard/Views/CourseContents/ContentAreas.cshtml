@@ -1,0 +1,50 @@
+﻿@model IEnumerable<BlackboardDatabase.Models.ContentArea>
+
+@{
+    ViewData["Title"] = "Folders";
+}
+
+<h2>Content Areas</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ContentAreaId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseContentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FolderId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TextBlock)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContentAreaId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseContentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FolderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TextBlock)
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+<div>
+    <td>
+        <a asp-controller="Courses" asp-action="Index">Back to course overview</a>
+    </td>
+</div>

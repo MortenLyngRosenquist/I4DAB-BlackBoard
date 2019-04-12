@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BlackBoard.Migrations
 {
-    public partial class Base : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -358,18 +358,18 @@ namespace BlackBoard.Migrations
                 columns: new[] { "ContentAreaId", "CourseContentId", "FolderId", "TextBlock" },
                 values: new object[,]
                 {
-                    { -1, 1, 1, "1Random content text (1,1)" },
-                    { -2, 1, 1, "2Random content text (1,1)" },
-                    { -3, 1, 1, "3Random content text (1,1)" },
-                    { -4, 1, 2, "Random content text (1,2)" },
-                    { -5, 1, 3, "1Random content text (1,3)" },
-                    { -6, 1, 3, "2Random content text (1,3)" },
-                    { -7, 2, 4, "Random content text (2,4)" },
-                    { -8, 2, 5, "1Random content text (2,5)" },
-                    { -9, 2, 6, "2Random content text (2,6)" },
-                    { -10, 3, 7, "Random content text (3,7)" },
-                    { -11, 3, 8, "1Random content text (3,8)" },
-                    { -12, 3, 9, "2Random content text (3,9)" }
+                    { 1, 1, 1, "1Random content text (1,1)" },
+                    { 2, 1, 1, "2Random content text (1,1)" },
+                    { 3, 1, 1, "3Random content text (1,1)" },
+                    { 4, 1, 2, "Random content text (1,2)" },
+                    { 5, 1, 3, "1Random content text (1,3)" },
+                    { 6, 1, 3, "2Random content text (1,3)" },
+                    { 7, 2, 4, "Random content text (2,4)" },
+                    { 8, 2, 5, "1Random content text (2,5)" },
+                    { 9, 2, 6, "2Random content text (2,6)" },
+                    { 10, 3, 7, "Random content text (3,7)" },
+                    { 11, 3, 8, "1Random content text (3,8)" },
+                    { 12, 3, 9, "2Random content text (3,9)" }
                 });
 
             migrationBuilder.CreateIndex(
