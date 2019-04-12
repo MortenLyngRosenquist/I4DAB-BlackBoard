@@ -16,6 +16,5 @@ namespace BlackboardDatabase.Models
         public int CourseContentId { get; set; }
         public CourseContent CourseContent { get; set; }
         public List<ContentArea> ContentAreas { get; set; }
-
     }
 }

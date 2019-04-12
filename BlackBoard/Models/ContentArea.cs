@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using BlackBoard.Models;
 
 namespace BlackboardDatabase.Models
 {
@@ -15,6 +16,8 @@ namespace BlackboardDatabase.Models
         public int CourseContentId { get; set; }
         public Folder Folder { get; set; }
         public int FolderId { get; set; }
+
+        public List<ContentLink> ContentLinks { get; set; }
 
     }
 }
