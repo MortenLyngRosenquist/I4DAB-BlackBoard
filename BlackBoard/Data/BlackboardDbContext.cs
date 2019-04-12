@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using BlackboardDatabase.Models;
 using Microsoft.EntityFrameworkCore;
+using BlackBoard.Models;
 
 namespace BlackboardDatabase.Data
 {
@@ -29,7 +30,11 @@ namespace BlackboardDatabase.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(
+                    "Server=(localdb)\\mssqllocaldb;Database=DAB2--BlackBoard;Trusted_Connection=True;MultipleActiveResultSets=true");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -108,7 +113,7 @@ namespace BlackboardDatabase.Data
             modelBuilder.Entity<AssignmentStudent>()
                 .HasOne<Assignment>(as_ => as_.Assignment)
                 .WithMany(a => a.AssignmentStudents)
-                .HasForeignKey(as_ => as_.StudentAUID);
+                .HasForeignKey(as_ => as_.AssignmentId);
         }
 
         private void OnModelCreatingSeedingData(ModelBuilder modelBuilder)
@@ -256,8 +261,20 @@ namespace BlackboardDatabase.Data
                     CourseName = "F19-I4DAB"
                 });
 
+            modelBuilder.Entity<AssignmentStudent>().HasData(
+                new AssignmentStudent { StudentAUID = 111111, AssignmentId = 111 },
+                new AssignmentStudent { StudentAUID = 111111, AssignmentId = 222 },
+                new AssignmentStudent { StudentAUID = 111111, AssignmentId = 333 },
+                new AssignmentStudent { StudentAUID = 222222, AssignmentId = 111 },
+                new AssignmentStudent { StudentAUID = 222222, AssignmentId = 222 },
+                new AssignmentStudent { StudentAUID = 333333, AssignmentId = 333 },
+                new AssignmentStudent { StudentAUID = 444444, AssignmentId = 333 },
+                new AssignmentStudent { StudentAUID = 444444, AssignmentId = 111 }
+            );
 
-           
+
         }
+
+        public DbSet<BlackBoard.Models.ContentLink> ContentLink { get; set; }
     }
 }

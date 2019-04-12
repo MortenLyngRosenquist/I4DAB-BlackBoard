@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BlackBoard.Migrations
 {
-    public partial class initial : Migration
+    public partial class Base : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -105,8 +105,7 @@ namespace BlackBoard.Migrations
                     Grade = table.Column<int>(nullable: false),
                     ParticipantsAllowed = table.Column<int>(nullable: false),
                     TeacherAUID = table.Column<int>(nullable: false),
-                    CourseName = table.Column<string>(nullable: false),
-                    StudentAUID = table.Column<int>(nullable: false)
+                    CourseName = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -116,12 +115,6 @@ namespace BlackBoard.Migrations
                         column: x => x.CourseName,
                         principalTable: "Courses",
                         principalColumn: "CourseName",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Assignments_Students_StudentAUID",
-                        column: x => x.StudentAUID,
-                        principalTable: "Students",
-                        principalColumn: "AUID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Assignments_Teachers_TeacherAUID",
@@ -177,6 +170,30 @@ namespace BlackBoard.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AssignmentStudents",
+                columns: table => new
+                {
+                    AssignmentId = table.Column<int>(nullable: false),
+                    StudentAUID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AssignmentStudents", x => new { x.StudentAUID, x.AssignmentId });
+                    table.ForeignKey(
+                        name: "FK_AssignmentStudents_Assignments_AssignmentId",
+                        column: x => x.AssignmentId,
+                        principalTable: "Assignments",
+                        principalColumn: "AssignmentId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AssignmentStudents_Students_StudentAUID",
+                        column: x => x.StudentAUID,
+                        principalTable: "Students",
+                        principalColumn: "AUID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ContentAreas",
                 columns: table => new
                 {
@@ -200,6 +217,27 @@ namespace BlackBoard.Migrations
                         column: x => x.FolderId,
                         principalTable: "Folders",
                         principalColumn: "FolderId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ContentLink",
+                columns: table => new
+                {
+                    ContentLinkId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Link = table.Column<string>(nullable: false),
+                    Type = table.Column<string>(nullable: false),
+                    ContentAreaId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContentLink", x => x.ContentLinkId);
+                    table.ForeignKey(
+                        name: "FK_ContentLink_ContentAreas_ContentAreaId",
+                        column: x => x.ContentAreaId,
+                        principalTable: "ContentAreas",
+                        principalColumn: "ContentAreaId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -235,6 +273,16 @@ namespace BlackBoard.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Assignments",
+                columns: new[] { "AssignmentId", "Attempt", "CourseName", "Grade", "HandinDeadline", "ParticipantsAllowed", "TeacherAUID" },
+                values: new object[,]
+                {
+                    { 333, 5, "F19-I4DAB", 10, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 10, 999999 },
+                    { 222, 2, "F19-I4DAB", 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, 999999 },
+                    { 111, 2, "F19-I4SWD", 7, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, 777777 }
+                });
+
+            migrationBuilder.InsertData(
                 table: "CourseContents",
                 columns: new[] { "CourseContentId", "CourseName" },
                 values: new object[,]
@@ -254,13 +302,13 @@ namespace BlackBoard.Migrations
                     { "F19-I4DAB", 444444, 0, "Aktiv" },
                     { "F19-I4SWD", 333333, 0, "Aktiv" },
                     { "F19-I4GUI", 333333, 0, "Aktiv" },
-                    { "F19-I4DAB", 333333, 0, "Aktiv" },
+                    { "F19-I4SWD", 222222, 0, "Aktiv" },
                     { "F19-I4GUI", 222222, 0, "Aktiv" },
                     { "F19-I4DAB", 222222, 0, "Aktiv" },
                     { "F19-I4SWD", 111111, 0, "Aktiv" },
                     { "F19-I4GUI", 111111, 0, "Aktiv" },
                     { "F19-I4DAB", 111111, 0, "Aktiv" },
-                    { "F19-I4SWD", 222222, 0, "Aktiv" }
+                    { "F19-I4DAB", 333333, 0, "Aktiv" }
                 });
 
             migrationBuilder.InsertData(
@@ -268,10 +316,25 @@ namespace BlackBoard.Migrations
                 columns: new[] { "CourseName", "TeacherAUID", "Role" },
                 values: new object[,]
                 {
-                    { "F19-I4GUI", 888888, "Primær" },
                     { "F19-I4DAB", 999999, "Primær" },
                     { "F19-I4SWD", 999999, "Primær" },
+                    { "F19-I4GUI", 888888, "Primær" },
                     { "F19-I4SWD", 777777, "Primær" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AssignmentStudents",
+                columns: new[] { "StudentAUID", "AssignmentId" },
+                values: new object[,]
+                {
+                    { 444444, 111 },
+                    { 111111, 111 },
+                    { 444444, 333 },
+                    { 333333, 333 },
+                    { 111111, 333 },
+                    { 222222, 222 },
+                    { 111111, 222 },
+                    { 222222, 111 }
                 });
 
             migrationBuilder.InsertData(
@@ -279,15 +342,15 @@ namespace BlackBoard.Migrations
                 columns: new[] { "FolderId", "CourseContentId", "FolderName" },
                 values: new object[,]
                 {
-                    { 1, 1, "Assignments" },
-                    { 2, 1, "0 Pre-Course" },
-                    { 3, 1, "1.1 Introduction" },
-                    { 4, 2, "Introduktion" },
-                    { 5, 2, "Lektionsplan" },
-                    { 6, 2, "01 Intro and .Net architecture" },
+                    { 9, 3, "Week 01.1 : Introduction to the course and agile software development" },
                     { 7, 3, "Week -1   : Optional: Self study of C#" },
+                    { 6, 2, "01 Intro and .Net architecture" },
+                    { 5, 2, "Lektionsplan" },
+                    { 4, 2, "Introduktion" },
+                    { 3, 1, "1.1 Introduction" },
+                    { 2, 1, "0 Pre-Course" },
                     { 8, 3, "Week 0    : Interfaces(Self-study)" },
-                    { 9, 3, "Week 01.1 : Introduction to the course and agile software development" }
+                    { 1, 1, "Assignments" }
                 });
 
             migrationBuilder.InsertData(
@@ -315,14 +378,14 @@ namespace BlackBoard.Migrations
                 column: "CourseName");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Assignments_StudentAUID",
-                table: "Assignments",
-                column: "StudentAUID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Assignments_TeacherAUID",
                 table: "Assignments",
                 column: "TeacherAUID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AssignmentStudents_AssignmentId",
+                table: "AssignmentStudents",
+                column: "AssignmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ContentAreas_CourseContentId",
@@ -333,6 +396,11 @@ namespace BlackBoard.Migrations
                 name: "IX_ContentAreas_FolderId",
                 table: "ContentAreas",
                 column: "FolderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContentLink_ContentAreaId",
+                table: "ContentLink",
+                column: "ContentAreaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CourseContents_CourseName",
@@ -359,10 +427,10 @@ namespace BlackBoard.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Assignments");
+                name: "AssignmentStudents");
 
             migrationBuilder.DropTable(
-                name: "ContentAreas");
+                name: "ContentLink");
 
             migrationBuilder.DropTable(
                 name: "CourseStudents");
@@ -371,13 +439,19 @@ namespace BlackBoard.Migrations
                 name: "TeacherCourses");
 
             migrationBuilder.DropTable(
-                name: "Folders");
+                name: "Assignments");
+
+            migrationBuilder.DropTable(
+                name: "ContentAreas");
 
             migrationBuilder.DropTable(
                 name: "Students");
 
             migrationBuilder.DropTable(
                 name: "Teachers");
+
+            migrationBuilder.DropTable(
+                name: "Folders");
 
             migrationBuilder.DropTable(
                 name: "CourseContents");

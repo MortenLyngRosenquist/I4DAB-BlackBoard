@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h2>Assignments</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,7 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.HandinDeadline)
+                @Html.DisplayNameFor(model => model.CourseName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AssignmentId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Attempt)
@@ -25,22 +28,22 @@
                 @Html.DisplayNameFor(model => model.ParticipantsAllowed)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Teacher)
+                @Html.DisplayNameFor(model => model.HandinDeadline)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Course)
+                @Html.DisplayNameFor(model => model.TeacherAUID)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @if (Model != null)
-        {
-            foreach (var item in Model)
-            {
+    @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.HandinDeadline)
+                @Html.DisplayFor(modelItem => item.CourseName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssignmentId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Attempt)
@@ -52,20 +55,15 @@
                 @Html.DisplayFor(modelItem => item.ParticipantsAllowed)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.HandinDeadline)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.TeacherAUID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CourseName)
+                <a asp-action="GradeAssignment" asp-route-id="@item.AssignmentId">Grade</a>
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CourseName)
-            </td>
-            <td>
-                <a asp-action="GradeAssignment" asp-route-id="@item.AssignmentId">Grade</a> 
-            </td>
-
         </tr>
-            }
-        }
+    }
     </tbody>
 </table>

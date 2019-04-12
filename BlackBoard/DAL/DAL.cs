@@ -14,11 +14,11 @@ namespace BlackboardDatabase.DAL
     public class DAL
     {
         #region Views
-        public static async Task<IQueryable<Student>> GetStudents(BlackboardDbContext context)
+        public static async Task<IEnumerable<Student>> GetStudents(BlackboardDbContext context)
         {
             var students = await context.Students.ToListAsync();
             await context.SaveChangesAsync();
-            return students?.AsQueryable();
+            return students;
         }
 
         public static async Task<Student> GetStudent(int studentId, BlackboardDbContext context)
@@ -29,30 +29,30 @@ namespace BlackboardDatabase.DAL
         }
 
 
-        public static async Task<IQueryable<Assignment>> GetAssignments(BlackboardDbContext context)
+        public static async Task<IEnumerable<Assignment>> GetAssignments(BlackboardDbContext context)
         {
             if (await context.Assignments.AnyAsync())
             {
                 var assignments = await context.Assignments.ToListAsync();
                 await context.SaveChangesAsync();
-                return assignments.AsQueryable();
+                return assignments;
             }
             return null;
         }
 
 
-        public static async Task<IQueryable<Course>> GetCourses(BlackboardDbContext context)
+        public static async Task<IEnumerable<Course>> GetCourses(BlackboardDbContext context)
         {
             if (await context.Courses.AnyAsync())
             {
                 var courses = await context.Courses.ToListAsync();
                 await context.SaveChangesAsync();
-                return courses.AsQueryable();
+                return courses;
             }
             return null;
         }
 
-        public static async Task<IQueryable<CourseStudent>> GetCourseStudentByStudentId(int auId, BlackboardDbContext context)
+        public static async Task<IEnumerable<CourseStudent>> GetCourseStudentByStudentId(int auId, BlackboardDbContext context)
         {
             if (await context.CourseStudents.AnyAsync(cs => cs.StudentAUID == auId))
             {
@@ -60,12 +60,12 @@ namespace BlackboardDatabase.DAL
                     .Where(cs => cs.StudentAUID == auId)
                     .ToListAsync();
                 await context.SaveChangesAsync();
-                return courseStudents.AsQueryable();
+                return courseStudents;
             }
             return null;
         }
 
-        public static async Task<IQueryable<AssignmentStudent>> GetAssignmentByStudentId(int auId, BlackboardDbContext context)
+        public static async Task<IEnumerable<AssignmentStudent>> GetAssignmentByStudentId(int auId, BlackboardDbContext context)
         {
 
             if (await context.AssignmentStudents.AnyAsync(as_ => as_.StudentAUID == auId))
@@ -74,12 +74,12 @@ namespace BlackboardDatabase.DAL
                     .Where(as_ => as_.StudentAUID == auId)
                     .ToListAsync();
                 await context.SaveChangesAsync();
-                return assignmentStudents.AsQueryable();
+                return assignmentStudents;
             }
             return null;
         }
 
-        public static async Task<IQueryable<TeacherCourse>> GetTeacherCoursesByCourseName(string courseName, BlackboardDbContext context)
+        public static async Task<IEnumerable<TeacherCourse>> GetTeacherCoursesByCourseName(string courseName, BlackboardDbContext context)
         {
             if (await context.TeacherCourses.AnyAsync(tc => tc.CourseName == courseName))
             {
@@ -87,12 +87,12 @@ namespace BlackboardDatabase.DAL
                     .Where(tc => tc.CourseName == courseName)
                     .ToListAsync();
                 await context.SaveChangesAsync();
-                return teacherCourses.AsQueryable();
+                return teacherCourses;
             }
             return null;
         }
 
-        public static async Task<IQueryable<CourseStudent>> GetCourseStudentByCourseName(string courseName, BlackboardDbContext context)
+        public static async Task<IEnumerable<CourseStudent>> GetCourseStudentByCourseName(string courseName, BlackboardDbContext context)
         {
             if (await context.CourseStudents.AnyAsync(cs => cs.CourseName == courseName))
             {
@@ -100,19 +100,19 @@ namespace BlackboardDatabase.DAL
                     .Where(cs => cs.CourseName == courseName)
                     .ToListAsync();
                 await context.SaveChangesAsync();
-                return teacherCourses.AsQueryable();
+                return teacherCourses;
             }
             return null;
         }
 
-        public static async Task<IQueryable<CourseContent>> GetCourseContentByCourseName(string courseName, BlackboardDbContext context)
+        public static async Task<IEnumerable<CourseContent>> GetCourseContentByCourseName(string courseName, BlackboardDbContext context)
         {
             if (await context.CourseContents.AnyAsync(cc => cc.CourseName == courseName))
             {
                 var contents = await context.CourseContents
                     .Where(cc => cc.CourseName == courseName)
                     .ToListAsync();
-                return contents.AsQueryable();
+                return contents;
             }
             return null;
         }
@@ -122,52 +122,24 @@ namespace BlackboardDatabase.DAL
 
         //TODO: (student id, course id) -> List students assignment, with grade and who grade these
 
-        public static async Task<IQueryable<Assignment>> GetStudentAssignmentsByCourseIDAndStudentID(string courseName, int auId, BlackboardDbContext context)
+        public static async Task<IEnumerable<Assignment>> GetStudentAssignmentsByCourseIDAndStudentID(string courseName, int auId, BlackboardDbContext context)
         {
+            var assignmentStudents = await context.AssignmentStudents
+                .Where(as_ => as_.StudentAUID == auId)
+                .Where(cn_ => cn_.Assignment.CourseName == courseName)
+                .ToListAsync();
+            await context.SaveChangesAsync();
 
-            //if (await context.AssignmentStudents.AnyAsync(as_ => as_.StudentAUID == auId))
+            List<Assignment> matchingAssignment = new List<Assignment>();
+            foreach (var entity in assignmentStudents)
             {
-                var assignmentStudents = await context.AssignmentStudents
-                    .Where(as_ => as_.StudentAUID == auId)
-                    .Where(cn_ => cn_.Assignment.CourseName == courseName)
-                    .ToListAsync();
-                await context.SaveChangesAsync();
-                List<Assignment> MatchinAssignment = new List<Assignment>();
-                foreach (var entity in assignmentStudents)
-                {
-                    MatchinAssignment.Add(entity.Assignment);
-                }
-
-                return MatchinAssignment.AsQueryable();
+                    matchingAssignment = await context.Assignments.
+                        Where(a => a.AssignmentId == entity.AssignmentId).
+                        ToListAsync();
+                    
             }
-
-            return null;
-
-            /*
-                            var MatchingAssignments = await (from assignmentStudent in context.AssignmentStudents
-                                        join assignment in context.Assignments
-                                        on assignmentStudent.AssignmentId equals assignment.AssignmentId
-                                        where assignment.CourseName == courseName
-                                        where assignmentStudent.StudentAUID == auId
-                                        select new Fredsmagicreturntype
-                                        {
-                                            a = assignmentStudent.Student.Name,
-                                            b = assignment.Grade,
-                                            c = assignment.Teacher.Name,
-                                            d = assignment.AssignmentId
-
-                                        }
-                                    ).ToListAsync();
-
-                              await context.SaveChangesAsync();
-                              return MatchingAssignments.AsQueryable();
-                              */
+            return matchingAssignment;
         }
-
-    
-        
-
-
         #endregion
 
         #region Creation
@@ -216,12 +188,11 @@ namespace BlackboardDatabase.DAL
         //TODO: Grade assignment
         public static async Task GradeAssignment(Assignment assignment, BlackboardDbContext context)
         {
-                //context.Assignments.Attach(assignment);
-                //context.Assignments.Attach(assignment);
-                
-                assignment.Grade = 10;
-                //assignment.Grade = grade;
-                await context.SaveChangesAsync();
+            
+            var entity = await context.Assignments.FindAsync(assignment.AssignmentId);
+            entity.Grade = assignment.Grade;
+            context.Update(entity);
+            await context.SaveChangesAsync();
         }
 
 

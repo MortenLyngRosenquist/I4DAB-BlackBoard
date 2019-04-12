@@ -15,9 +15,30 @@ namespace BlackBoard.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034")
+                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("BlackBoard.Models.ContentLink", b =>
+                {
+                    b.Property<int>("ContentLinkId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ContentAreaId");
+
+                    b.Property<string>("Link")
+                        .IsRequired();
+
+                    b.Property<string>("Type")
+                        .IsRequired();
+
+                    b.HasKey("ContentLinkId");
+
+                    b.HasIndex("ContentAreaId");
+
+                    b.ToTable("ContentLink");
+                });
 
             modelBuilder.Entity("BlackboardDatabase.Models.Assignment", b =>
                 {
@@ -87,7 +108,51 @@ namespace BlackBoard.Migrations
 
                     b.HasKey("StudentAUID", "AssignmentId");
 
+                    b.HasIndex("AssignmentId");
+
                     b.ToTable("AssignmentStudents");
+
+                    b.HasData(
+                        new
+                        {
+                            StudentAUID = 111111,
+                            AssignmentId = 111
+                        },
+                        new
+                        {
+                            StudentAUID = 111111,
+                            AssignmentId = 222
+                        },
+                        new
+                        {
+                            StudentAUID = 111111,
+                            AssignmentId = 333
+                        },
+                        new
+                        {
+                            StudentAUID = 222222,
+                            AssignmentId = 111
+                        },
+                        new
+                        {
+                            StudentAUID = 222222,
+                            AssignmentId = 222
+                        },
+                        new
+                        {
+                            StudentAUID = 333333,
+                            AssignmentId = 333
+                        },
+                        new
+                        {
+                            StudentAUID = 444444,
+                            AssignmentId = 333
+                        },
+                        new
+                        {
+                            StudentAUID = 444444,
+                            AssignmentId = 111
+                        });
                 });
 
             modelBuilder.Entity("BlackboardDatabase.Models.ContentArea", b =>
@@ -568,6 +633,14 @@ namespace BlackBoard.Migrations
                         });
                 });
 
+            modelBuilder.Entity("BlackBoard.Models.ContentLink", b =>
+                {
+                    b.HasOne("BlackboardDatabase.Models.ContentArea", "ContentArea")
+                        .WithMany("ContentLinks")
+                        .HasForeignKey("ContentAreaId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("BlackboardDatabase.Models.Assignment", b =>
                 {
                     b.HasOne("BlackboardDatabase.Models.Course", "Course")
@@ -583,12 +656,12 @@ namespace BlackBoard.Migrations
 
             modelBuilder.Entity("BlackboardDatabase.Models.AssignmentStudent", b =>
                 {
-                    b.HasOne("BlackboardDatabase.Models.Student", "Student")
+                    b.HasOne("BlackboardDatabase.Models.Assignment", "Assignment")
                         .WithMany("AssignmentStudents")
-                        .HasForeignKey("StudentAUID")
+                        .HasForeignKey("AssignmentId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("BlackboardDatabase.Models.Assignment", "Assignment")
+                    b.HasOne("BlackboardDatabase.Models.Student", "Student")
                         .WithMany("AssignmentStudents")
                         .HasForeignKey("StudentAUID")
                         .OnDelete(DeleteBehavior.Restrict);
