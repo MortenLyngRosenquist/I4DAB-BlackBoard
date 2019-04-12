@@ -9,13 +9,17 @@ namespace BlackboardDatabase.Models
     {
         [Required]
         public string CourseName { get; set; }
+        public Course Course { get; set; }
+
         [Required]
         public int StudentAUID { get; set; }
+        public Student Student { get; set; }
+
         [Required]
         public string Status { get; set; }
         public int Grade { get; set; }
-        public Student Student { get; set; }
-        public Course Course { get; set; }
+        
+        
         
     }
 }
