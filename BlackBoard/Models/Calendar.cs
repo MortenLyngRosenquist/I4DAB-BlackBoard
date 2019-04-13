@@ -10,6 +10,7 @@ namespace BlackBoard.Models
 {
     public class Calendar
     {
+        public int CalendarId { get; set; }
         [Required]
         public string CourseName { get; set; }
         public Course Course { get; set; }
